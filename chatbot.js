@@ -1,4 +1,4 @@
-const API_KEY = 'MY_API_KEY'; // Hidden temporarily for security purposes
+const API_KEY = 'ANY_API'; // Hidden temporarily for security purposes
 
 // Theme state
 let isDarkTheme = true;
@@ -188,3 +188,38 @@ document.getElementById("userInput").addEventListener("keypress", function(event
 
 document.querySelector('.toolbar-btn:first-child').addEventListener("click", clearChat);
 document.querySelector('.toolbar-btn:last-child').addEventListener("click", toggleTheme);
+function exportChat() {
+    // Get all messages from chat display
+    const chatDisplay = document.getElementById("chatDisplay");
+    const messages = chatDisplay.getElementsByClassName("message");
+    
+    // Format messages for export
+    let exportText = "";
+    const timestamp = new Date().toLocaleString();
+    
+    exportText += "Chat History - Exported on " + timestamp + "\n\n";
+    
+    for (const message of messages) {
+        if (message.classList.contains("userMessage")) {
+            exportText += "User: " + message.textContent + "\n\n";
+        } else if (message.classList.contains("botMessage")) {
+            // Strip HTML tags for bot messages
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = message.innerHTML;
+            const textContent = tempDiv.textContent || tempDiv.innerText || "";
+            exportText += "Assistant: " + textContent.trim() + "\n\n";
+        }
+    }
+    
+    // Create blob and download
+    const blob = new Blob([exportText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "chat-history.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
