@@ -334,7 +334,7 @@
 <body>
     <div id="appContainer">
         <div id="sidebar">
-            <h2>AI Assistant Pro</h2>
+            <h2>FNATICS AI</h2>
             <div id="features">
                 <button class="feature-btn" onclick="setMode('creative')">
                     <i class="fas fa-magic"></i> Creative Mode
